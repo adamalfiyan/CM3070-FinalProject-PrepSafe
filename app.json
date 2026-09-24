@@ -1,0 +1,20 @@
+{
+  "expo": {
+    "name": "PrepSafePrototype",
+    "slug": "prepsafe-prototype",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "backgroundColor": "#F0F4F8",
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "backgroundColor": "#2B7A78"
+    },
+    "plugins": [
+      "expo-sqlite",
+      "expo-status-bar"
+    ]
+  }
+}
