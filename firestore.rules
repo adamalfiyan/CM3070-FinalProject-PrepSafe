@@ -11,29 +11,21 @@ service cloud.firestore {
         allow read, write: if request.auth != null && request.auth.uid == userId;
       }
 
-      // Alert history - the owning user can read their own log and create new
-      // entries (written automatically when an alert fires). No edits/deletes.
+      // Alert history - the owning user can read their own log and create new entries
       match /alertHistory/{alertId} {
         allow read, create: if request.auth != null && request.auth.uid == userId;
         allow update, delete: if false;
       }
     }
 
-    // Alert zones - readable by any signed-in user (required for the client-side
-    // geofencing check in AlertsScreen.js). Writable by any signed-in user only
-    // because this prototype's "Simulate Nearby Alert" button creates zones
-    // directly from the client for demo purposes. In a real deployment, zone
-    // creation should go through a trusted backend (e.g. a Cloud Function using
-    // the Admin SDK, fed by an official emergency data feed) rather than open
-    // client writes.
+    // Alert zones allow open client writes for simulation but must restrict to trusted backend in production.
     match /alertZones/{zoneId} {
       allow read: if request.auth != null;
       allow create, update: if request.auth != null;
       allow delete: if false;
     }
 
-    // Deny everything else by default (e.g. the ad-hoc "_connection_test"
-    // collection used earlier to verify the Firebase connection).
+    // Deny everything else by default (e.g. the ad-hoc "_connection_test")
     match /{document=**} {
       allow read, write: if false;
     }
